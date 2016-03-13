@@ -1,0 +1,10 @@
+{% extends '@AdminUI/page.html' %}
+
+{% block admin_panel %}
+<script>
+$(function() {
+    $('#dmenu-region').asRegion().load('/bs/dmenu/region');
+});
+</script>
+<div id="dmenu-region"> </div>
+{% endblock %}

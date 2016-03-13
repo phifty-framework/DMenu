@@ -1,0 +1,42 @@
+{% import '@CoreBundle/phifty/forms.html' as forms %}
+
+<h3>Menu Folder</h3>
+<form method="post">
+	{% if id %}
+		<input type="hidden" name="action" value="DMenu::Action::UpdateMenuItem">
+		<input type="hidden" name="id" value="{{ id }}">
+	{% else %}
+		<input type="hidden" name="action" value="DMenu::Action::CreateMenuItem">
+	{% endif %}
+
+    <div class="v-field">
+        <div class="label">{% trans 'Language' %}</div>
+        {% set langs = Web.langs() %}
+        {{ forms.select( 'lang', langs , data.lang ? data.lang : Kernel.locale.current ) }}
+    </div>
+
+	<div class="v-field">
+        <div class="label">{% trans 'Folder' %}</div>
+		<div class="input">
+			<input type="text" name="label" value="{{ data.label }}"/>
+		</div>
+	</div>
+
+	<div class="v-field">
+        <div class="label">{% trans 'Link' %}</div>
+		<div class="input">
+			<input type="text" name="link" value="{{ data.link }}"/>
+		</div>
+	</div>
+
+	<input type="hidden" name="type"   value="{{ data.type|default('folder') }}"/>
+	<input type="hidden" name="parent" value="{{ data.parent|default(0) }}"/>
+
+	<div class="button-group">
+		{% if id %}
+            <input class="button create" type="submit" value="{% trans 'Update' %}"/>
+		{% else %}
+            <input class="button create" type="submit" value="{% trans 'Create' %} "/>
+		{% endif %}
+	</div>
+</form>

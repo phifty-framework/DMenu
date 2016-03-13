@@ -1,0 +1,79 @@
+
+.menu-editor { 
+	width: 60%; 
+    position: relative;
+    float: left;
+}
+
+.menu-item-controll { 
+	position: absolute;
+	right: 3px;
+	top: 3px;
+}
+
+.menu-editor .status {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+
+}
+.menu-editor .panel {
+    margin: 10px 3px;
+}
+.menu-editor .nav {
+	border: 1px solid #fff;
+	background: #fff;
+	padding: 10px;
+	border-radius: 10px 10px 0 0;
+}
+
+
+.preview-menu-tree {
+    float: left;
+    width: 28%;
+    background: #fff;
+    padding: 10px;
+    margin-top: 60px;
+    margin-left: 20px;
+    border-radius: 15px;
+}
+.preview-menu-tree ul {  
+    margin: 5px;
+    margin-left: 15px;
+    padding:0px;
+}
+
+
+#sortable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	background: #fff;
+	padding: 10px;
+	padding-top: 0px;
+	border-radius: 0 0 10px 10px;
+}
+
+#sortable li { 
+	position: relative;
+	margin: 0 3px 3px 3px; 
+	padding: 0.4em; 
+	padding-left: 1.5em; 
+	font-size: 1.4em; 
+	height: 18px; 
+}
+
+#sortable li a { }
+#sortable li a.link:hover { text-decoration: underline; }
+
+#sortable li span.ui-icon { 
+	position: absolute; 
+	margin-left: -1.3em;
+}
+
+#sortable li span.desc {
+	margin: 6px;
+	font-size: 12px;
+	color: #333;
+}
+

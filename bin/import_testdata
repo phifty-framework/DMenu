@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+require 'main.php';
+
+use DMenu\Model\MenuItem;
+
+$app = kernel();
+$item = new MenuItem;
+
+foreach( range(1,3) as $i ) {
+    $item->create(array( 
+            'label' => 'Link ' . $i , 
+            'lang' => 'en', 
+            'parent' => 0,
+            'type' => 'link', 
+            'data' => '#link' ));
+
+    $item->create(array( 
+            'label' => 'Link ' . $i , 
+            'lang' => 'en', 
+            'parent' => 0, 
+            'type' => 'folder', 
+            'data' => '#link' ));
+
+    $folderId = $item->id;
+
+    # Create folder item
+    foreach( range(1,3) as $j ) {
+        $item->create(array( 
+                'label'  => 'Submenu Link ' . $j ,
+                'lang'   => 'en',
+                'parent' => $folderId,
+                'type'   => 'link',
+                'data'   => '#link' ));
+    }
+}
+

@@ -1,0 +1,6 @@
+---
+collections:
+  - js:
+    - js/
+  - css:
+    - css/
