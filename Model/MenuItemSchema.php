@@ -9,7 +9,11 @@ class MenuItemSchema extends SchemaDeclare
         $this->column('label')->varchar(128);  # label
         $this->column('title')->varchar(256);  # <a title="{{ titlle }}">
 
-        $this->column('parent')->refer('DMenu\\Model\\MenuItemSchema')->null();
+        $this->column('parent')
+            ->integer()
+            ->null()
+            ->refer('DMenu\\Model\\MenuItemSchema')
+            ;
 
         # type: can be 'link','page','folder','dynamic'
         $this->column('type')->varchar(20);
