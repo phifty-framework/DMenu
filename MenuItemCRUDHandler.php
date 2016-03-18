@@ -22,6 +22,8 @@ class MenuItemCRUDHandler extends CRUDHandler
     public $canBulkCopy = false;
     public $canEditInNewWindow = false;
 
+    public $defaultOrder = array('sort', 'ASC');
+
     protected $searchQueryFields = ['parent_id', 'lang', 'type'];
 
     protected $applyRequestFields = ['parent_id', 'lang', 'type'];
