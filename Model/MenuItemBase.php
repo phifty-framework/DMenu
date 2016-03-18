@@ -22,7 +22,7 @@ class MenuItemBase
       0 => 'id',
       1 => 'label',
       2 => 'title',
-      3 => 'parent',
+      3 => 'parent_id',
       4 => 'type',
       5 => 'data',
       6 => 'sort',
@@ -32,7 +32,7 @@ class MenuItemBase
       'id' => 1,
       'label' => 1,
       'title' => 1,
-      'parent' => 1,
+      'parent_id' => 1,
       'type' => 1,
       'data' => 1,
       'sort' => 1,
@@ -63,9 +63,9 @@ class MenuItemBase
     {
             return $this->get('title');
     }
-    public function getParent()
+    public function getParentId()
     {
-            return $this->get('parent');
+            return $this->get('parent_id');
     }
     public function getType()
     {

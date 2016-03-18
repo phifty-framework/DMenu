@@ -1,0 +1,29 @@
+{#
+vim:filetype=vim:sw=2:ts=2:sts=2:
+#}
+{% extends '@AppCRUD/edit.html' %}
+
+{% block section_body %}
+{% set bundle = Kernel.bundle('AppBundle') %}
+
+<form class="ajax-action form-horizontal"
+    enctype="multipart/form-data"
+    method="post">
+
+    {{ CRUD.Action.renderSignatureWidget|raw }}
+    {{ CRUD.Action.renderCSRFTokenWidget|raw }}
+
+    {% if CRUD.Record.id %}
+      <input type="hidden" name="id" value="{{CRUD.Record.id}}"/>
+    {% endif %}
+
+    {{CRUD.Action.renderField('parent_id')|raw}}
+    {{CRUD.Action.renderField('type')|raw}}
+    {{CRUD.Action.renderField('lang')|raw}}
+    {{CRUD.Action.renderField('label')|raw}}
+
+    {% if Request._form_controls %}
+      {% include "@AppCRUD/controll.html" %}
+    {% endif %}
+</form>
+{% endblock %}

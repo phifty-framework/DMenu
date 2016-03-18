@@ -5,22 +5,26 @@ use PageBundle\Model\Page;
 
 class MenuItem extends MenuItemBase
 {
-
-    function getLabel()
+    public function dataLabel()
     {
-        return _('Menu Item');
+        return $this->label;
     }
 
-    function beforeDelete($args)
+    public function getLabel()
+    {
+        return _('選單');
+    }
+
+    public function beforeDelete($args)
     {
         $items = new MenuItemCollection;
-        $items->where( array( 'parent' => $this->id ) );
+        $items->where(array( 'parent' => $this->id ));
         $items->delete();
     }
 
-    function beforeCreate($args) 
+    public function beforeCreate($args) 
     {
-        if( isset($args['type']) && $args['type'] == "page" ) {
+        if (isset($args['type']) && $args['type'] == "page") {
             // include the page
             $page = new Page((int) $args['data']);
             if( $page->id )
@@ -31,9 +35,9 @@ class MenuItem extends MenuItemBase
         return $args;
     }
 
-    function beforeUpdate($args)
+    public function beforeUpdate($args)
     {
-        if( $this->type == "page" && isset($args['data']) ) {
+        if ($this->type == "page" && isset($args['data'])) {
             // include the page
             $page = new Page((int) $args['data']);
             if ( $page->id ) {
@@ -44,5 +48,4 @@ class MenuItem extends MenuItemBase
         }
         return $args;
     }
-    
 }

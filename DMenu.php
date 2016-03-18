@@ -20,6 +20,7 @@ class DMenu extends \Phifty\Bundle
         $this->route( '/bs/dmenu' ,                 'Panel' );
         $this->route( '/bs/dmenu/region' ,                 'Panel:regionAction');
 
+        $this->mount('/bs/menu_item','MenuItemCRUDHandler');
         $this->addRecordAction( 'MenuItem' ,         array( 'Create','Update','Delete') );
 
 
