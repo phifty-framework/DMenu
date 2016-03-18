@@ -39,12 +39,21 @@ class MenuItemSchema extends SchemaDeclare
             ;
 
         # item data
-        $this->column('data')->text();
-        $this->column('sort')->integer()->default(0);
+        $this->column('data')
+            ->varchar(200)
+            ->label('網址 (或參數)')
+            ;
+
+        $this->column('sort')
+            ->unsigned()
+            ->smallint()->default(0);
 
         $this->mixin('I18N\\Model\\Mixin\\I18NSchema');
 
         $this->belongsTo('parent', 'DMenu\\Model\\MenuItemSchema', 'id', 'parent_id');
+
+        $this->many('children', 'DMenu\\Model\\MenuItemSchema', 'parent_id', 'id')
+            ->onDelete('CASCADE');
     }
 
     public function bootstrap($record)

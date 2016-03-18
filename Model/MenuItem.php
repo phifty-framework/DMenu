@@ -18,7 +18,7 @@ class MenuItem extends MenuItemBase
     public function beforeDelete($args)
     {
         $items = new MenuItemCollection;
-        $items->where(array( 'parent' => $this->id ));
+        $items->where(array( 'parent_id' => $this->id ));
         $items->delete();
     }
 

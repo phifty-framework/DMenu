@@ -21,7 +21,8 @@
   border-bottom-left-radius: 4px;
 }
 
-.list-group .list-group-item .btn {
+.list-group .list-group-item .btn,
+.list-group .list-group-item .btn-group {
   margin: 0;
 }
 
@@ -52,7 +53,12 @@ a.list-group-item, button.list-group-item {
 <script>
 $(function() {
     var app = React.createElement(MenuEditorApp, {
-      'basepath': "/bs/menu_item"
+      "basepath": "/bs/menu_item",
+      "lang": "zh_TW", // default
+      "languages": [
+        // {'lang':'en', 'label': '英文'},
+        {'lang':'zh_TW', 'label':'中文'}
+      ]
     });
     React.render(app, document.getElementById('menuEditorApp'));
 });
