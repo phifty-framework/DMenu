@@ -43,12 +43,16 @@ a.list-group-item, button.list-group-item {
 .list-group .list-group-item.dragging {
   background: #ccc;
 }
+
+.list-group .list-group-item.folder {
+ /*  background: linear-gradient(-3deg, #eee, #fff); */
+}
 </style>
 <div id="menuEditorApp"> </div>
 <script>
 $(function() {
     var app = React.createElement(MenuEditorApp, {
-        basepath: "/bs/menu_item"
+      'basepath': "/bs/menu_item"
     });
     React.render(app, document.getElementById('menuEditorApp'));
 });

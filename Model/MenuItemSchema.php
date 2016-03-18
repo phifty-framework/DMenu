@@ -29,6 +29,13 @@ class MenuItemSchema extends SchemaDeclare
             ->varchar(20)
             ->required()
             ->label('類型')
+            ->validValues([
+              '產品類別' => 'dynamic:products',
+              '最新消息' => 'dynamic:news',
+              '連結' => 'link',
+              '選單' => 'folder',
+              '頁面' => 'page',
+            ])
             ;
 
         # item data
