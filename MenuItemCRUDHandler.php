@@ -2,6 +2,7 @@
 namespace DMenu;
 use Phifty\Bundle;
 use AdminUI\CRUDHandler;
+use DMenu\Model\MenuItem;
 
 class MenuItemCRUDHandler extends CRUDHandler
 {
@@ -32,5 +33,33 @@ class MenuItemCRUDHandler extends CRUDHandler
     {
         return parent::getCollection();
     }
+
+    public function searchAction()
+    {
+        $data = [];
+        $request = $this->getRequest();
+        $parentId = intval($request->param('parent_id'));
+        $collection = $this->search($request);
+        if ($parentId) {
+            $menu = new MenuItem;
+            if ($menu->find($parentId)->success) {
+                $data['current'] = $menu->toArray();
+                $cur = $menu->parent;
+                while ($cur->id) {
+                    $data['parents'][] = $cur->toArray();
+                    $cur = $cur->parent;
+                }
+            }
+        } else {
+            $collection->where()
+                ->equal('parent_id', 0)
+                ->or()
+                ->is('parent_id', null)
+                ;
+        }
+        $data['items'] = $collection->toArray();
+        return $this->toJson($data);
+    }
+
 }
 

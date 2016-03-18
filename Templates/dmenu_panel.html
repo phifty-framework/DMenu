@@ -47,7 +47,9 @@ a.list-group-item, button.list-group-item {
 <div id="menuEditorApp"> </div>
 <script>
 $(function() {
-    var app = React.createElement(MenuEditorApp, {});
+    var app = React.createElement(MenuEditorApp, {
+        basepath: "/bs/menu_item"
+    });
     React.render(app, document.getElementById('menuEditorApp'));
 });
 </script>
