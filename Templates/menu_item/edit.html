@@ -17,11 +17,12 @@ vim:filetype=vim:sw=2:ts=2:sts=2:
       <input type="hidden" name="id" value="{{CRUD.Record.id}}"/>
     {% endif %}
 
-    {{CRUD.Action.renderField('parent_id')|raw}}
-    {{CRUD.Action.renderField('type')|raw}}
-    {{CRUD.Action.renderField('lang')|raw}}
     {{CRUD.Action.renderField('label')|raw}}
+    {{CRUD.Action.renderField('lang')|raw}}
+    {{CRUD.Action.renderField('type')|raw}}
     {{CRUD.Action.renderField('data')|raw}}
+
+    {{CRUD.Action.renderField('parent_id')|raw}}
 
     {% if Request._form_controls %}
       {% include "@AppCRUD/controll.html" %}

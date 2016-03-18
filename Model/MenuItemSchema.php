@@ -9,7 +9,9 @@ class MenuItemSchema extends SchemaDeclare
         $this->column('label')
             ->varchar(128)
             ->label('標籤')
+            ->required(true)
             ;  # label
+
         $this->column('title')
             ->varchar(256)
             ->label('標題')
@@ -29,12 +31,13 @@ class MenuItemSchema extends SchemaDeclare
             ->varchar(20)
             ->required()
             ->label('類型')
+            ->default(function() { return 'link'; })
             ->validValues([
-              '產品類別' => 'dynamic:products',
-              '最新消息' => 'dynamic:news',
               '連結' => 'link',
               '選單' => 'folder',
               '頁面' => 'page',
+              '產品類別' => 'dynamic:products',
+              '最新消息' => 'dynamic:news',
             ])
             ;
 

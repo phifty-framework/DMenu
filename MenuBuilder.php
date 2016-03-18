@@ -58,8 +58,9 @@ class MenuBuilder
         // find top menu item first
         $data  = array();
         $items = new MenuItemCollection;
-        $items->where( array('parent' => $parent , 'lang' => $this->lang ) );
-        $items->order('sort','asc')->order('id','asc');
+        $items->where( array('parent_id' => $parent , 'lang' => $this->lang ) );
+        $items->orderBy('sort','asc')
+            ->orderBy('id','asc');
         $array = $items->items();
 
         for( $i = 0 ; $i < count($array) ; $i++ ) {
