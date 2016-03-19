@@ -30,6 +30,7 @@ class MenuItemBase
       8 => 'data',
       9 => 'sort',
       10 => 'lang',
+      11 => 'ordering',
     );
     public static $column_hash = array (
       'id' => 1,
@@ -43,9 +44,11 @@ class MenuItemBase
       'data' => 1,
       'sort' => 1,
       'lang' => 1,
+      'ordering' => 1,
     );
     public static $mixin_classes = array (
-      0 => 'I18N\\Model\\Mixin\\I18NSchema',
+      0 => 'SortablePlugin\\Model\\Mixin\\OrderingSchema',
+      1 => 'I18N\\Model\\Mixin\\I18NSchema',
     );
     protected $table = 'menu_items';
     public $readSourceId = 'default';
@@ -100,5 +103,9 @@ class MenuItemBase
     public function getLang()
     {
             return $this->get('lang');
+    }
+    public function getOrdering()
+    {
+            return $this->get('ordering');
     }
 }

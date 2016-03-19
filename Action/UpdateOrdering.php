@@ -6,14 +6,22 @@ use DMenu\Model\MenuItem;
 
 class UpdateOrdering extends \ActionKit\Action
 {
-    function run()
+    public function run()
     {
         $orderingList = json_decode($this->arg('json'));
-        foreach( $orderingList as $ordering ) {
-            $item = new MenuItem( (int) $ordering->record );
-            $item->update(array( 'sort' => $ordering->order ));
+        $error = false;
+        foreach ($orderingList as $orderingItem) {
+            $item = new MenuItem();
+            $item->find(intval($orderingItem->record));
+            $ret = $item->update(['ordering' => $orderingItem->order]);
+            if ($ret) {
+                $error = true;
+            }
         }
-        return $this->success( _('Menu Ordering has been updated.') );
+        if ($error) {
+            return $this->error('選單順序更新失敗');
+        }
+        return $this->success( _('Menu order has been updated.') );
     }
 }
 

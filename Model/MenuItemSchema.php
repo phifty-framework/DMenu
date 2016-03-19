@@ -21,9 +21,10 @@ class MenuItemSchema extends SchemaDeclare
             ->integer()
             ->unsigned()
             ->null()
-            // ->refer('DMenu\\Model\\MenuItemSchema')
-            ->label('上層選項')
-            ->renderAs('SelectInput', [ 'allow_empty' => true ])
+            ->label('上層選單')
+            ->renderAs('SelectInput', [
+                'allow_empty' => true
+            ])
             ;
 
         # type: can be 'link','page','folder','dynamic'
@@ -66,25 +67,15 @@ class MenuItemSchema extends SchemaDeclare
             ;
 
         $this->column('sort')
-            ->unsigned()
-            ->smallint()->default(0);
+            ->smallint()
+            ->default(0);
 
         $this->mixin('I18N\\Model\\Mixin\\I18NSchema');
+        $this->mixin('SortablePlugin\\Model\\Mixin\\OrderingSchema');
 
         $this->belongsTo('parent', 'DMenu\\Model\\MenuItemSchema', 'id', 'parent_id');
 
         $this->many('children', 'DMenu\\Model\\MenuItemSchema', 'parent_id', 'id')
             ->onDelete('CASCADE');
     }
-
-    public function bootstrap($record)
-    {
-        $record->create(array(
-            'label' => 'Google',
-            'lang' => 'en',
-            'type' => 'link',
-            'data' => 'http://google.com/',
-        ));
-    }
 }
-
