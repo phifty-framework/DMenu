@@ -24,9 +24,12 @@ class MenuItemBase
       2 => 'title',
       3 => 'parent_id',
       4 => 'type',
-      5 => 'data',
-      6 => 'sort',
-      7 => 'lang',
+      5 => 'require_login',
+      6 => 'class_names',
+      7 => 'extra_attrs',
+      8 => 'data',
+      9 => 'sort',
+      10 => 'lang',
     );
     public static $column_hash = array (
       'id' => 1,
@@ -34,6 +37,9 @@ class MenuItemBase
       'title' => 1,
       'parent_id' => 1,
       'type' => 1,
+      'require_login' => 1,
+      'class_names' => 1,
+      'extra_attrs' => 1,
       'data' => 1,
       'sort' => 1,
       'lang' => 1,
@@ -70,6 +76,18 @@ class MenuItemBase
     public function getType()
     {
             return $this->get('type');
+    }
+    public function getRequireLogin()
+    {
+            return $this->get('require_login');
+    }
+    public function getClassNames()
+    {
+            return $this->get('class_names');
+    }
+    public function getExtraAttrs()
+    {
+            return $this->get('extra_attrs');
     }
     public function getData()
     {

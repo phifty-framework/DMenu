@@ -41,6 +41,24 @@ class MenuItemSchema extends SchemaDeclare
             ])
             ;
 
+        $this->column('require_login')
+            ->boolean()
+            ->default(false)
+            ->label('須登入')
+            ;
+
+        $this->column('class_names')
+            ->varchar(200)
+            ->null()
+            ->label('Class names')
+            ;
+
+        $this->column('extra_attrs')
+            ->varchar(200)
+            ->null()
+            ->label('Extra Element Attributes')
+            ;
+
         # item data
         $this->column('data')
             ->varchar(200)
