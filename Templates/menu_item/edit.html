@@ -31,8 +31,6 @@ vim:filetype=vim:sw=2:ts=2:sts=2:
     {{CRUD.Action.renderField('extra_attrs')|raw}}
 
 
-    {% if Request._form_controls %}
-      {% include "@AppCRUD/controll.html" %}
-    {% endif %}
+    {% include "@AppCRUD/controll.html" %}
 </form>
 {% endblock %}
