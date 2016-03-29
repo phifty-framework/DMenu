@@ -17,6 +17,12 @@ class MenuItemSchema extends SchemaDeclare
             ->label('標題')
             ;  # <a title="{{ titlle }}">
 
+        $this->column('is_hidden')
+            ->boolean()
+            ->default(false)
+            ->label('隱藏')
+            ;
+
         $this->column('parent_id')
             ->integer()
             ->unsigned()

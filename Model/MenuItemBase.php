@@ -22,20 +22,22 @@ class MenuItemBase
       0 => 'id',
       1 => 'label',
       2 => 'title',
-      3 => 'parent_id',
-      4 => 'type',
-      5 => 'require_login',
-      6 => 'class_names',
-      7 => 'extra_attrs',
-      8 => 'data',
-      9 => 'sort',
-      10 => 'lang',
-      11 => 'ordering',
+      3 => 'is_hidden',
+      4 => 'parent_id',
+      5 => 'type',
+      6 => 'require_login',
+      7 => 'class_names',
+      8 => 'extra_attrs',
+      9 => 'data',
+      10 => 'sort',
+      11 => 'lang',
+      12 => 'ordering',
     );
     public static $column_hash = array (
       'id' => 1,
       'label' => 1,
       'title' => 1,
+      'is_hidden' => 1,
       'parent_id' => 1,
       'type' => 1,
       'require_login' => 1,
@@ -71,6 +73,10 @@ class MenuItemBase
     public function getTitle()
     {
             return $this->get('title');
+    }
+    public function getIsHidden()
+    {
+            return $this->get('is_hidden');
     }
     public function getParentId()
     {

@@ -58,6 +58,9 @@ class MenuBuilder
                     continue;
                 }
             }
+            if ($item->is_hidden) {
+                continue;
+            }
 
             if ($item->type === "folder" || $item->children->size() > 0) {
                 $itemData = $item->toArray();
