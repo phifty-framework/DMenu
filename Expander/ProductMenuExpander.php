@@ -19,13 +19,14 @@ class ProductMenuExpander
         $this->builder = $builder;
     }
 
-    public function expand($item) 
+    public function expand($item)
     {
         $lang = null;
-        if( $this->builder )
+        if ($this->builder) {
             $lang = $this->builder->lang;
-        else
+        } else {
             $lang = kernel()->locale->current;
+        }
 
         // query product categories and return the tree structure.
         $cates = new CategoryCollection;
