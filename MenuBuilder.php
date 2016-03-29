@@ -53,6 +53,12 @@ class MenuBuilder
 
         $data = [];
         foreach ($items as $item) {
+            if ($item->require_login) {
+                if (!$currentUser->hasLoggedIn()) {
+                    continue;
+                }
+            }
+
             if ($item->type === "folder" || $item->children->size() > 0) {
                 $itemData = $item->toArray();
                 $itemData['items'] = $this->buildTree($item->id, $currentUser);
@@ -69,11 +75,9 @@ class MenuBuilder
         // find items need to be expanded.
         for( $i = 0; $i < count($tree) ; $i++ ) {
             $item = & $tree[ $i ];
-
             if( $item['type'] == "folder" && isset($item['items']) ) {
                 $item['items'] = $this->expandTree($item['items'], $currentUser);
-            }
-            elseif( preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
+            } else if( preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
                 $expanderType = $regs[1];
                 if( ! $regs[1] )
                     throw new Exception("MenuItem {$item['type']} can't be expanded.");
