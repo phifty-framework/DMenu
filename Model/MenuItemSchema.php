@@ -20,7 +20,7 @@ class MenuItemSchema extends SchemaDeclare
         $this->column('parent_id')
             ->integer()
             ->unsigned()
-            ->null()
+            ->default(0)
             ->label('上層選單')
             ->renderAs('SelectInput', [
                 'allow_empty' => true

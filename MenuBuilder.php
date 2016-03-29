@@ -5,6 +5,7 @@ use DMenu\Model\MenuItemCollection;
 use DMenu\Renderer\DefaultRenderer;
 use Phifty\YAML;
 use Phifty\Logger;
+use Phifty\Security\CurrentUser;
 use Exception;
 
 
@@ -14,60 +15,47 @@ use Exception;
     $builder = new MenuBuilder;
     $builder->addExpander( 'products' , 'DMenu\Expander\ProductMenuExpander' ); # register dynamic menu expander
     $tree = $builder->getTree();
-    $tree = $builder->expandItems($tree);
-    $menuHtml = $builder->render($tree);
-
+    $tree = $builder->expandTree($tree);
 
     $builder2 = new MenuBuilder;
     $builder2->setRenderer(new \DMenu\Renderer\FlatRenderer);
     $footerMenuHtml = $builder2->build();
 
  **/
-class MenuBuilder 
+class MenuBuilder
 {
-    public $expanders = array();
-    public $renderer;
-    public $verbose;
+    protected $expanders = array();
 
     public function __construct($lang = null)
     {
-        $this->lang = $lang ?: kernel()->locale->current();
+        $this->lang = $lang;
     }
 
-    public function addExpander( $id , $cb )
+    public function addExpander($expanderId , $cb )
     {
-        $this->expanders[ $id ] = $cb;
+        $this->expanders[$expanderId] = $cb;
     }
 
-    public function setRenderer($renderer)
-    {
-        $this->renderer = $renderer;
-    }
-
-    public function getRenderer()
-    {
-        if ( $this->renderer ) {
-            return $this->renderer;
-        }
-        // we should use default renderer.
-        return $this->renderer = new DefaultRenderer;
-    }
-
-    function buildTree( $parent = 0 )
+    /**
+     * buildTree converts model objects into a plain array list
+     *
+     * @return array[]
+     */
+    public function buildTree($parent, CurrentUser $currentUser = null)
     {
         // find top menu item first
-        $data  = array();
         $items = new MenuItemCollection;
-        $items->where( array('parent_id' => $parent , 'lang' => $this->lang ) );
-        $items->orderBy('sort','asc')
-            ->orderBy('id','asc');
-        $array = $items->items();
+        $items->where()
+                ->equal('parent_id', $parent)
+            ->equal('lang', $this->lang);
+        $items->orderBy('sort','ASC')
+            ->orderBy('id','ASC');
 
-        for( $i = 0 ; $i < count($array) ; $i++ ) {
-            $item = $array[ $i ];
-            if( $item->type == "folder" ) {
+        $data = [];
+        foreach ($items as $item) {
+            if ($item->type === "folder" || $item->children->size() > 0) {
                 $itemData = $item->toArray();
-                $itemData['items'] = $this->buildTree( $item->id );
+                $itemData['items'] = $this->buildTree($item->id, $currentUser);
                 $data[] = $itemData;
             } else {
                 $data[] = $item->toArray();
@@ -76,20 +64,14 @@ class MenuBuilder
         return $data;
     }
 
-    /* default renderer */
-    public function render($tree, $level = 0) 
-    {
-        return $this->getRenderer()->render( $tree, $level );
-    }
-
-    public function expandItems( $tree )
+    protected function expandTree(array $tree, CurrentUser $currentUser = null)
     {
         // find items need to be expanded.
         for( $i = 0; $i < count($tree) ; $i++ ) {
             $item = & $tree[ $i ];
 
             if( $item['type'] == "folder" && isset($item['items']) ) {
-                $item['items'] = $this->expandItems( $item['items'] );
+                $item['items'] = $this->expandTree($item['items'], $currentUser);
             }
             elseif( preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
                 $expanderType = $regs[1];
@@ -118,16 +100,11 @@ class MenuBuilder
         return $tree;
     }
 
-    public function getTree()
+    public function build(CurrentUser $currentUser = null)
     {
-        return $this->buildTree();
-    }
-
-    public function build()
-    {
-        $tree = $this->getTree();
-        $tree = $this->expandItems( $tree );
-        return $this->render( $tree );
+        // build a basic menu tree and expand the tree with expander
+        $tree = $this->buildTree(0, $currentUser);
+        return $this->expandTree($tree, $currentUser);
     }
 
 }

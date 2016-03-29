@@ -2,6 +2,7 @@
 namespace DMenu\Renderer;
 
 use DMenu\RendererInterface;
+use Phifty\Security\CurrentUser;
 
 
 /**
@@ -64,7 +65,7 @@ class DefaultRenderer implements RendererInterface
     }
 
 
-    public function render($tree,$level = 0) 
+    public function render($tree, $level = 0)
     {
         $html = '';
         $html .= str_repeat( ' ' , $level * 4 );
