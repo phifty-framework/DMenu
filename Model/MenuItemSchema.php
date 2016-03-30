@@ -41,13 +41,20 @@ class MenuItemSchema extends SchemaDeclare
             ->label('類型')
             ->default(function() { return 'link'; })
             ->validValues([
-              '連結' => 'link',
-              '選單' => 'folder',
-              '頁面' => 'page',
-              '產品類別' => 'dynamic:products',
-              '最新消息' => 'dynamic:news',
+                '連結' => 'link',
+                '選單' => 'folder',
+                '頁面' => 'page',
             ])
             ;
+
+        $this->column('expander')
+            ->varchar(50)
+            ->label('展開為')
+            ->validValues([
+                '展開為產品類別' => 'products',
+                '展開為最新消息' => 'news',
+            ])
+            ->renderAs('TextInput');
 
         $this->column('require_login')
             ->boolean()
