@@ -2,10 +2,10 @@
 namespace DMenu\Expander;
 use UseCaseBundle\Model\CategoryCollection;
 use DMenu\MenuExpanderInterface;
+use DMenu\MenuExpander\MenuExpander;
 
 /* build product menu */
-class UseCaseCategoryMenuExpander
-    implements MenuExpanderInterface
+class UseCaseCategoryMenuExpander implements MenuExpander
 {
     public $builder;
 

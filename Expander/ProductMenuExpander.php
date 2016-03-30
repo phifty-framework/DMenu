@@ -4,17 +4,19 @@ use ProductBundle\Model\Category;
 use ProductBundle\Model\Product;
 use ProductBundle\Model\CategoryCollection;
 use ProductBundle\Model\ProductCollection;
-use DMenu\MenuExpanderInterface;
+use DMenu\Expander\MenuExpanderInterface;
+use DMenu\MenuExpander\MenuExpander;
+use DMenu\MenuBuilder;
 
-/* build product menu */
-class ProductMenuExpander 
-    implements MenuExpanderInterface 
+class ProductMenuExpander implements MenuExpander 
 {
     public $builder;
+
     public $categorylinkFormat = '/product?category_id=%d';
+
     public $productlinkFormat = '/product?category_id=%d';
 
-    public function __construct($builder = null)
+    public function __construct(MenuBuilder $builder)
     {
         $this->builder = $builder;
     }

@@ -26,14 +26,41 @@ class MenuBuilder
 {
     protected $expanders = array();
 
-    public function __construct($lang = null)
+    /**
+     * @var string locale id
+     */
+    protected $locale;
+
+    public function __construct($locale)
     {
-        $this->lang = $lang;
+        $this->locale = $locale;
     }
 
-    public function addExpander($expanderId , $cb )
+
+    public function getLocale()
     {
-        $this->expanders[$expanderId] = $cb;
+        return $this->locale;
+    }
+
+
+
+    /**
+     * @param string $expanderId
+     */
+    public function addExpander($id, $expander)
+    {
+        $this->expanders[$id] = $expander;
+    }
+
+
+    /**
+     * @param string $expander
+     */
+    public function getExpander($expander)
+    {
+        if ($this->expanders[$expander]) {
+            return $this->expanders[$expander];
+        }
     }
 
     /**
@@ -45,9 +72,12 @@ class MenuBuilder
     {
         // find top menu item first
         $items = new MenuItemCollection;
-        $items->where()
-                ->equal('parent_id', $parent)
-            ->equal('lang', $this->lang);
+        $items->where()->equal('parent_id', $parent);
+
+        if ($this->locale) {
+            $items->where()->equal('lang', $this->locale);
+        }
+
         $items->orderBy('sort','ASC')
             ->orderBy('id','ASC');
 
@@ -62,13 +92,41 @@ class MenuBuilder
                 continue;
             }
 
-            if ($item->type === "folder" || $item->children->size() > 0) {
-                $itemData = $item->toArray();
-                $itemData['items'] = $this->buildTree($item->id, $currentUser);
-                $data[] = $itemData;
-            } else {
-                $data[] = $item->toArray();
+
+            switch ($item->type) {
+                case 'dynamic':
+                    if (!$item->expander) {
+                        continue;
+                    }
+                    $expander = $this->getExpander($item->expander);
+                    if (is_string($expander)) {
+                        if (!class_exists($expander,true)) {
+                            throw new LogicException;
+                        }
+                        if (!is_a($expander, 'DMenu\\MenuExpander\\MenuExpander', true)) {
+                            throw new LogicException;
+                        }
+                        $expander = new $expander($this);
+                    } else if (is_object($expander)) {
+                        if (!$expander instanceof MenuExpander) {
+                            throw new LogicException;
+                        }
+                    } else {
+                        throw new LogicException('Unsupported menu item expander');
+                    }
+                    $data[] = $expander->expand($item);
+                    break;
+                default:
+                    if ($item->children->size() > 0) {
+                        $itemData = $item->toArray();
+                        $itemData['items'] = $this->buildTree($item->id, $currentUser);
+                        $data[] = $itemData;
+                    } else {
+                        $data[] = $item->toArray();
+                    }
+                    break;
             }
+
         }
         return $data;
     }
@@ -78,14 +136,14 @@ class MenuBuilder
         // find items need to be expanded.
         for( $i = 0; $i < count($tree) ; $i++ ) {
             $item = & $tree[ $i ];
-            if( $item['type'] == "folder" && isset($item['items']) ) {
+            if ($item['type'] == "folder" && isset($item['items']) ) {
                 $item['items'] = $this->expandTree($item['items'], $currentUser);
-            } else if( preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
+            } else if (preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
                 $expanderType = $regs[1];
-                if( ! $regs[1] )
+                if (! $regs[1])
                     throw new Exception("MenuItem {$item['type']} can't be expanded.");
 
-                if( isset( $this->expanders[ $expanderType ] ) ) {
+                if (isset($this->expanders[ $expanderType ])) {
                     /* expand menu items */
                     $cb = $this->expanders[ $expanderType ];
                     if( function_exists($cb) ) {
