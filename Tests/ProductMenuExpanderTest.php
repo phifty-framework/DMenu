@@ -27,5 +27,7 @@ class ProductMenuExpanderTest extends PHPUnit_Framework_TestCase
         $menuRenderer = new SuperfishRenderer;
         $menuHtml = $menuRenderer->render($menuTree);
         echo $menuHtml;
+
+        $menuItem->delete();
     }
 }

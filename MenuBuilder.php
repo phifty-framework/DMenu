@@ -7,6 +7,7 @@ use Phifty\YAML;
 use Phifty\Logger;
 use Phifty\Security\CurrentUser;
 use Exception;
+use LogicException;
 
 /* class for building front-end menu html,
 
