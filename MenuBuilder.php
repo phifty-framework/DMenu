@@ -8,9 +8,9 @@ use Phifty\Logger;
 use Phifty\Security\CurrentUser;
 use Exception;
 
-
 /* class for building front-end menu html,
- * usage:
+
+## USAGE
 
     $builder = new MenuBuilder;
     $builder->addExpander( 'products' , 'DMenu\Expander\ProductMenuExpander' ); # register dynamic menu expander
@@ -68,16 +68,14 @@ class MenuBuilder
      *
      * @return array[]
      */
-    public function buildTree($parent, CurrentUser $currentUser = null)
+    protected function buildTree($parentId = 0, CurrentUser $currentUser = null)
     {
         // find top menu item first
         $items = new MenuItemCollection;
-        $items->where()->equal('parent_id', $parent);
-
+        $items->where()->equal('parent_id', $parentId);
         if ($this->locale) {
             $items->where()->equal('lang', $this->locale);
         }
-
         $items->orderBy('sort','ASC')
             ->orderBy('id','ASC');
 
@@ -92,13 +90,15 @@ class MenuBuilder
                 continue;
             }
 
-
             switch ($item->type) {
                 case 'dynamic':
                     if (!$item->expander) {
                         continue;
                     }
                     $expander = $this->getExpander($item->expander);
+                    if (!$expander) {
+                        throw new LogicException;
+                    }
                     if (is_string($expander)) {
                         if (!class_exists($expander,true)) {
                             throw new LogicException;
@@ -131,45 +131,10 @@ class MenuBuilder
         return $data;
     }
 
-    protected function expandTree(array $tree, CurrentUser $currentUser = null)
-    {
-        // find items need to be expanded.
-        for( $i = 0; $i < count($tree) ; $i++ ) {
-            $item = & $tree[ $i ];
-            if ($item['type'] == "folder" && isset($item['items']) ) {
-                $item['items'] = $this->expandTree($item['items'], $currentUser);
-            } else if (preg_match( '/^dynamic:(\w+)/i', $item['type'], $regs ) ) {
-                $expanderType = $regs[1];
-                if (! $regs[1])
-                    throw new Exception("MenuItem {$item['type']} can't be expanded.");
-
-                if (isset($this->expanders[ $expanderType ])) {
-                    /* expand menu items */
-                    $cb = $this->expanders[ $expanderType ];
-                    if( function_exists($cb) ) {
-                        $item = call_user_func($cb, $this, $item['data'] );
-                    }
-                    elseif( is_callable( $cb ) ) {
-                        $item = $cb( $this, $item['data'] );
-                    }
-                    elseif( class_exists($cb,true) )  {
-                        $expander = new $cb($this);
-                        $item = $expander->expand($item);
-                    }
-                    else {
-                        throw new Exception("DMenu expander $cb not found.");
-                    }
-                }
-            }
-        }
-        return $tree;
-    }
-
     public function build(CurrentUser $currentUser = null)
     {
         // build a basic menu tree and expand the tree with expander
-        $tree = $this->buildTree(0, $currentUser);
-        return $this->expandTree($tree, $currentUser);
+        return $this->buildTree(0, $currentUser);
     }
 
 }

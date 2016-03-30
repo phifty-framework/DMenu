@@ -44,6 +44,7 @@ class MenuItemSchema extends SchemaDeclare
                 '連結' => 'link',
                 '選單' => 'folder',
                 '頁面' => 'page',
+                '動態' => 'dynamic',
             ])
             ;
 
@@ -51,7 +52,7 @@ class MenuItemSchema extends SchemaDeclare
             ->varchar(50)
             ->label('展開為')
             ->validValues([
-                '展開為產品類別' => 'products',
+                '展開為產品類別' => 'product_categories',
                 '展開為最新消息' => 'news',
             ])
             ->renderAs('SelectInput', [ 'allow_empty' => true ]);
@@ -61,6 +62,12 @@ class MenuItemSchema extends SchemaDeclare
             ->default(false)
             ->label('須登入')
             ->renderAs('CheckboxInput');
+            ;
+
+        $this->column('handle')
+            ->varchar(30)
+            ->unique()
+            ->label('Handle')
             ;
 
         $this->column('class_names')
