@@ -11,9 +11,7 @@ use LazyRecord\BaseModel;
 
 class ProductMenuExpander extends RecordMenuExpander implements MenuExpander
 {
-    protected $builder;
-
-    protected $linkFormat = '/product?category_id={recordId}';
+    protected $linkFormat = '/product?category_id={id}#{name|url_encode}';
 
     protected $rootLink = '/product';
 

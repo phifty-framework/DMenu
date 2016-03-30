@@ -69,13 +69,14 @@ abstract class RecordMenuExpander implements MenuExpander
 
     protected function formatLink(BaseModel $record)
     {
-        return str_replace('{recordId}', $record->id, $this->linkFormat);
+        return preg_replace_callback('/{(\w+)(\|\w+)?}/x', function($matches) use ($record) {
+            $value = $record->get($matches[1]);
+            if (isset($matches[2]) && in_array($matches[2],['urlencode','url_encode'])) {
+                $value = rawurlencode($value);
+            }
+            return $value;
+        }, $this->linkFormat);
     }
-
-
-
-
-
 
     protected function createFolder(BaseModel $record)
     {
