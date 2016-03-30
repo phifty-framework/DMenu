@@ -44,22 +44,34 @@ abstract class RecordMenuExpander implements MenuExpander
 
 
 
+    /**
+     *
+     * @param MenuItem $rootItem
+     *
+     */
     protected function getRootLink(MenuItem $rootItem)
     {
         return $this->rootLink;
     }
 
+    /**
+     *
+     * @param MenuItem $rootItem
+     *
+     */
     protected function getRootLabel(MenuItem $rootItem)
     {
         return $rootItem->dataLabel();
     }
 
+    /**
+     *
+     * @param MenuItem $rootItem
+     *
+     */
     abstract protected function fetchRootCollection(MenuItem $rootItem);
 
     abstract protected function fetchChildrenRecords(BaseModel $record);
-
-
-
 
 
     protected function formatLabel(BaseModel $record)
@@ -104,17 +116,22 @@ abstract class RecordMenuExpander implements MenuExpander
 
     final protected function convertChildRecord(BaseModel $record)
     {
-        $children = $this->fetchChildrenRecords($record);
-        if ($children->size() > 0) {
-            $menu = $this->createFolder($record);
-            foreach ($children as $child) {
-                $menu['items'][] = $this->convertChildRecord($child);
+        if ($children = $this->fetchChildrenRecords($record)) {
+            if ($children->size() > 0) {
+                $menu = $this->createFolder($record);
+                foreach ($children as $child) {
+                    $menu['items'][] = $this->convertChildRecord($child);
+                }
+                return $menu;
             }
-            return $menu;
         }
         return $this->createLink($record);
     }
 
+    /**
+     *
+     * @param MenuItem $rootItem
+     */
     final public function expand(MenuItem $rootItem)
     {
         $parentMenuItem = $this->createRootMenuItem($rootItem);
