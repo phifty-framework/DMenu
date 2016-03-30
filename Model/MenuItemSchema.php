@@ -49,13 +49,17 @@ class MenuItemSchema extends SchemaDeclare
             ;
 
         $this->column('expander')
-            ->varchar(50)
-            ->label('展開為')
+            ->varchar(60)
+            ->label('展開器')
+            /*
             ->validValues([
                 '展開為產品類別' => 'product_categories',
                 '展開為最新消息' => 'news',
             ])
-            ->renderAs('SelectInput', [ 'allow_empty' => true ]);
+            ->renderAs('SelectInput', [ 'allow_empty' => true ])
+            */
+            ->renderAs('TextInput')
+            ;
 
         $this->column('require_login')
             ->boolean()

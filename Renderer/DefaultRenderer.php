@@ -1,9 +1,8 @@
 <?php
 namespace DMenu\Renderer;
-
 use DMenu\RendererInterface;
 use Phifty\Security\CurrentUser;
-
+use WebUI\Core\Element;
 
 /**
 Render menu items to HTML
@@ -18,74 +17,58 @@ the link item contains:
     ];
 
  */
-class DefaultRenderer implements RendererInterface
+class DefaultRenderer
 {
-    public $ulClasses = array();
+    protected $ulClasses = array();
+
+    protected $sharedAttributes;
 
     public function addClass()
     {
         $this->ulClasses = array_merge($this->ulClasses,func_get_args());
     }
 
-    public function _renderAttributes($item) {
-        $attrs = array();
-        if ( isset($item['attrs']) ) {
-            foreach( $item['attrs'] as $key => $value ) {
-                $attrs[] = sprintf('%s="%s"',$key, $value);
-            }
-            return ' ' . join(' ', $attrs);
-        }
-        return '';
-    }
-
-    public function renderLink($item, $close = true) {
-        $html = '';
-        if ( isset($item['data']) ) {
-            $html .= sprintf('<li><a href="%s"%s>%s</a>', $item['data'], $this->_renderAttributes($item), $item['label']);
-        } else if ( isset($item['label'] )) {
-            $html .= sprintf('<li><a href="#"%s>%s</a>', $this->_renderAttributes($item), $item['label']);
-        } else {
-            throw new Exception("unsupported structure");
-        }
-        if ( $close ) {
-            $html .= '</li>';
-        }
-        return $html;
-    }
-
-    public function renderFolder($item, $level = 0) {
-        $html = str_repeat( ' ' , $level * 4 );
-        $html .= $this->renderLink($item, false);
-        if( ! empty($item['items']) && is_array($item['items']) ) {
-            $html .= $this->render( $item['items'] , $level + 1 );
-        }
-        $html .= str_repeat( ' ' , $level * 4 );
-        $html .= "</li>\n";
-        return $html;
-    }
-
-
-    public function render($tree, $level = 0)
+    public function setSharedAttributes(array $attributes)
     {
-        $html = '';
-        $html .= str_repeat( ' ' , $level * 4 );
+        $this->sharedAttributes = $attributes;
+    }
 
-        if( $level == 0 && ! empty($this->ulClasses) ) {
-            $html .= '<ul class="'. join(" ", $this->ulClasses) .'">'. "\n";
-        } else {
-            $html .= "<ul>\n";
+    protected function renderItem(array $item, $level = 0)
+    {
+        $attributes = ['href' => $item['data'] ?: '#'];
+
+        // shared attributes
+        if ($this->sharedAttributes) {
+            $attributes = array_merge($this->sharedAttributes, $attributes);
         }
 
-        foreach( $tree as $item ) {
-            if( $item['type'] == "folder" && isset($item['items']) ) {
-                $html .= $this->renderFolder($item);
-            } else {
-                $html .= $this->renderLink($item);
-            }
+        // per-item attributes
+        if (isset($item['attrs'])) {
+            $attributes = array_merge($attributes, (array) $item['attrs']);
         }
-        $html .= str_repeat( ' ' , $level * 4 );
-        $html .= "</ul>\n";
-        return $html;
+        $a = new Element('a', $attributes);
+        if (isset($item['extra_attrs'])) {
+            $a->setExtraAttributeString($item['extra_attrs']);
+        }
+        $a->append($item['label']);
+
+        $li = new Element('li');
+        $li->append($a);
+        if (isset($item['items']) && is_array($item['items']) ) {
+            $ul = $this->render($item['items'], $level + 1);
+            $li->append($ul);
+        }
+        return $li;
+    }
+
+    public function render(array $tree, $level = 0)
+    {
+        $ul = new Element('ul', $level == 0 ? ['class' => $this->ulClasses ] : []);
+        foreach ($tree as $item) {
+            $li = $this->renderItem($item, $level);
+            $ul->append($li);
+        }
+        return $ul;
     }
 }
 

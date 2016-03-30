@@ -94,6 +94,7 @@ class MenuBuilder
             switch ($item->type) {
                 case 'dynamic':
                     if (!$item->expander) {
+                        throw new LogicException('expander type is not defined');
                         continue;
                     }
                     $expander = $this->getExpander($item->expander);

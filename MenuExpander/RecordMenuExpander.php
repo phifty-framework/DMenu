@@ -94,6 +94,8 @@ abstract class RecordMenuExpander implements MenuExpander
     {
         return [
             'type' => 'folder',
+            'attrs' => [ 'class' => $record->class_names, ],
+            'extra_attrs' => $record->extra_attrs,
             'label' => $this->formatLabel($record),
             'data'  => $this->formatLink($record),
             'items' => [],
@@ -104,6 +106,8 @@ abstract class RecordMenuExpander implements MenuExpander
     {
         return [
             'type' => 'link',
+            'attrs' => [ 'class' => $record->class_names, ],
+            'extra_attrs' => $record->extra_attrs,
             'label' => $this->formatLabel($record),
             'data'  => $this->formatLink($record),
         ];
