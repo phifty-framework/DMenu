@@ -24,19 +24,10 @@ abstract class RecordMenuExpander implements MenuExpander
 
     protected $rootLink = '#rootItem';
 
+
     public function __construct(MenuBuilder $builder)
     {
         $this->builder = $builder;
-    }
-
-    protected function getRootLabel(MenuItem $rootItem)
-    {
-        return $rootItem->dataLabel();
-    }
-
-    protected function getRootLink(MenuItem $rootItem)
-    {
-        return $this->rootLink;
     }
 
     protected function createRootMenuItem(MenuItem $rootItem)
@@ -50,9 +41,41 @@ abstract class RecordMenuExpander implements MenuExpander
         ];
     }
 
+
+
+
+    protected function getRootLink(MenuItem $rootItem)
+    {
+        return $this->rootLink;
+    }
+
+    protected function getRootLabel(MenuItem $rootItem)
+    {
+        return $rootItem->dataLabel();
+    }
+
     abstract protected function fetchRootCollection(MenuItem $rootItem);
 
     abstract protected function fetchChildrenRecords(BaseModel $record);
+
+
+
+
+
+    protected function formatLabel(BaseModel $record)
+    {
+        return $record->dataLabel();
+    }
+
+    protected function formatLink(BaseModel $record)
+    {
+        return str_replace('{recordId}', $record->id, $this->linkFormat);
+    }
+
+
+
+
+
 
     protected function createFolder(BaseModel $record)
     {
@@ -73,17 +96,12 @@ abstract class RecordMenuExpander implements MenuExpander
         ];
     }
 
-    protected function formatLabel(BaseModel $record)
-    {
-        return $record->dataLabel();
-    }
 
-    protected function formatLink(BaseModel $record)
-    {
-        return str_replace('{recordId}', $record->id, $this->linkFormat);
-    }
 
-    protected function convertChildRecord(BaseModel $record)
+
+
+
+    final protected function convertChildRecord(BaseModel $record)
     {
         $children = $this->fetchChildrenRecords($record);
         if ($children->size() > 0) {
@@ -96,7 +114,7 @@ abstract class RecordMenuExpander implements MenuExpander
         return $this->createLink($record);
     }
 
-    public function expand(MenuItem $rootItem)
+    final public function expand(MenuItem $rootItem)
     {
         $parentMenuItem = $this->createRootMenuItem($rootItem);
         $collection = $this->fetchRootCollection($rootItem);
