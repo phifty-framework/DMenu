@@ -16,16 +16,14 @@ class ProductMenuExpanderTest extends PHPUnit_Framework_TestCase
             'lang' => 'zh_TW',
             'parent_id' => 0,
         ], 'expander');
-
-        var_dump( $ret );
         $this->assertTrue($ret->success);
-
-
 
         $menuBuilder = new MenuBuilder('zh_TW' ?: $this->kernel->locale->current());
         $menuBuilder->addExpander('product_categories', 'DMenu\\MenuExpander\\ProductMenuExpander');
 
         $menuTree = $menuBuilder->build(new CurrentMember);
+        $this->assertNotEmpty($menuTree);
+
         $menuRenderer = new SuperfishRenderer;
         $menuHtml = $menuRenderer->render($menuTree);
         echo $menuHtml;
