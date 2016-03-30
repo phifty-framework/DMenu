@@ -25,13 +25,14 @@ class MenuItemBase
       3 => 'is_hidden',
       4 => 'parent_id',
       5 => 'type',
-      6 => 'require_login',
-      7 => 'class_names',
-      8 => 'extra_attrs',
-      9 => 'data',
-      10 => 'sort',
-      11 => 'lang',
-      12 => 'ordering',
+      6 => 'expander',
+      7 => 'require_login',
+      8 => 'class_names',
+      9 => 'extra_attrs',
+      10 => 'data',
+      11 => 'sort',
+      12 => 'lang',
+      13 => 'ordering',
     );
     public static $column_hash = array (
       'id' => 1,
@@ -40,6 +41,7 @@ class MenuItemBase
       'is_hidden' => 1,
       'parent_id' => 1,
       'type' => 1,
+      'expander' => 1,
       'require_login' => 1,
       'class_names' => 1,
       'extra_attrs' => 1,
@@ -85,6 +87,10 @@ class MenuItemBase
     public function getType()
     {
             return $this->get('type');
+    }
+    public function getExpander()
+    {
+            return $this->get('expander');
     }
     public function getRequireLogin()
     {

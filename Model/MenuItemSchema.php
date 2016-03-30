@@ -54,7 +54,7 @@ class MenuItemSchema extends SchemaDeclare
                 '展開為產品類別' => 'products',
                 '展開為最新消息' => 'news',
             ])
-            ->renderAs('TextInput');
+            ->renderAs('SelectInput', [ 'allow_empty' => true ]);
 
         $this->column('require_login')
             ->boolean()
