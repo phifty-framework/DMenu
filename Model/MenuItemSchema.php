@@ -21,6 +21,7 @@ class MenuItemSchema extends SchemaDeclare
             ->boolean()
             ->default(false)
             ->label('隱藏')
+            ->renderAs('CheckboxInput');
             ;
 
         $this->column('parent_id')
@@ -29,7 +30,7 @@ class MenuItemSchema extends SchemaDeclare
             ->default(0)
             ->label('上層選單')
             ->renderAs('SelectInput', [
-                'allow_empty' => true
+                'allow_empty' => 0,
             ])
             ;
 
@@ -52,6 +53,7 @@ class MenuItemSchema extends SchemaDeclare
             ->boolean()
             ->default(false)
             ->label('須登入')
+            ->renderAs('CheckboxInput');
             ;
 
         $this->column('class_names')
