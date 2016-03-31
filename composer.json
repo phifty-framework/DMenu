@@ -1,0 +1,22 @@
+{
+    "name": "corneltek/dmenu",
+    "type": "phifty-bundle",
+    "description": "Menu management bundle for phifty framework application",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "c9s",
+            "email": "yoanlin93@gmail.com"
+        }
+    ],
+    "require": {
+        "corneltek/installers": "dev-master"
+    },
+    "require-dev": {
+    },
+    "autoload": { "psr-4": { "DMenu\\": "" } },
+    "extra": { "branch-alias": { "dev-master": "3.1.x-dev" } },
+    "repositories": [
+        {"type": "composer", "url": "https://toran.corneltek.com/repo/private/"}
+    ]
+}
