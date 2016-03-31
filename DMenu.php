@@ -15,7 +15,10 @@ class DMenu extends \Phifty\Bundle
     {
         $this->route( '/dmenu/preview-menu-tree' ,  'PreviewMenuTree' );
         $this->route( '/=/dmenu/tree'  , 'GetMenuTree');
-        $this->route('/bs/dmenu', 'Panel');
+
+        $this->route('/bs/dmenu', 'EditorController:index');
+        $this->route('/bs/dmenu/crud/index', 'EditorController:region');
+
         $this->mount('/bs/menu_item','MenuItemCRUDHandler');
         $this->addRecordAction('MenuItem');
     }

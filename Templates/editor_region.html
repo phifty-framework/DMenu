@@ -1,5 +1,4 @@
-{% extends AdminUI.getBasePageTemplate() %}
-{% block page_content %}
+{% set bundle = Kernel.bundle('DMenu') %}
 <style>
 .list-group .list-group-item {
   position: relative;
@@ -63,4 +62,3 @@ $(function() {
     React.render(app, document.getElementById('menuEditorApp'));
 });
 </script>
-{% endblock %}
