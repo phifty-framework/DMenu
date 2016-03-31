@@ -13,8 +13,8 @@ class DMenu extends \Phifty\Bundle
 
     public function init()
     {
-        $this->route( '/dmenu/preview-menu-tree' ,  'PreviewMenuTree' );
-        $this->route( '/=/dmenu/tree'  , 'GetMenuTree');
+        $this->route('/dmenu/preview-menu-tree' ,  'PreviewMenuTree');
+        $this->route('/=/dmenu/tree','GetMenuTree');
 
         $this->route('/bs/dmenu', 'EditorController:index');
         $this->route('/bs/dmenu/crud/index', 'EditorController:region');
