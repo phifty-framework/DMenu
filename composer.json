@@ -10,13 +10,10 @@
         }
     ],
     "require": {
-        "corneltek/installers": "dev-master"
+        "composer/installers": "~1.0.0"
     },
     "require-dev": {
     },
     "autoload": { "psr-4": { "DMenu\\": "" } },
-    "extra": { "branch-alias": { "dev-master": "3.1.x-dev" } },
-    "repositories": [
-        {"type": "composer", "url": "https://toran.corneltek.com/repo/private/"}
-    ]
+    "extra": { "branch-alias": { "dev-master": "3.1.x-dev" } }
 }
