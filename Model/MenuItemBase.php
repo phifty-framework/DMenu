@@ -10,6 +10,7 @@ use LazyRecord\BaseModel;
 class MenuItemBase
     extends BaseModel
 {
+    const SCHEMA_CLASS = 'DMenu\\Model\\MenuItemSchema';
     const SCHEMA_PROXY_CLASS = 'DMenu\\Model\\MenuItemSchemaProxy';
     const COLLECTION_CLASS = 'DMenu\\Model\\MenuItemCollection';
     const MODEL_CLASS = 'DMenu\\Model\\MenuItem';
