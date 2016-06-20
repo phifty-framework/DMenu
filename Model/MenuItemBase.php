@@ -32,9 +32,8 @@ class MenuItemBase
       9 => 'class_names',
       10 => 'extra_attrs',
       11 => 'data',
-      12 => 'sort',
-      13 => 'lang',
-      14 => 'ordering',
+      12 => 'lang',
+      13 => 'ordering',
     );
     public static $column_hash = array (
       'id' => 1,
@@ -49,7 +48,6 @@ class MenuItemBase
       'class_names' => 1,
       'extra_attrs' => 1,
       'data' => 1,
-      'sort' => 1,
       'lang' => 1,
       'ordering' => 1,
     );
@@ -114,10 +112,6 @@ class MenuItemBase
     public function getData()
     {
             return $this->get('data');
-    }
-    public function getSort()
-    {
-            return $this->get('sort');
     }
     public function getLang()
     {

@@ -92,10 +92,6 @@ class MenuItemSchema extends SchemaDeclare
             ->label('網址 (或參數)')
             ;
 
-        $this->column('sort')
-            ->smallint()
-            ->default(0);
-
         $this->mixin('I18N\\Model\\Mixin\\I18NSchema');
         $this->mixin('SortablePlugin\\Model\\Mixin\\OrderingSchema');
 

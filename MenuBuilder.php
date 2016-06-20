@@ -77,7 +77,7 @@ class MenuBuilder
         if ($this->locale) {
             $items->where()->equal('lang', $this->locale);
         }
-        $items->orderBy('sort','ASC')
+        $items->orderBy('ordering','ASC')
             ->orderBy('id','ASC');
 
         $data = [];

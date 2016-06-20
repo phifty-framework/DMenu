@@ -23,7 +23,7 @@ class MenuItemCRUDHandler extends CRUDHandler
     public $canBulkCopy = false;
     public $canEditInNewWindow = false;
 
-    public $defaultOrder = array('sort', 'ASC');
+    public $defaultOrder = array('ordering', 'ASC');
 
     protected $searchQueryFields = ['parent_id', 'lang', 'type'];
 
@@ -57,6 +57,7 @@ class MenuItemCRUDHandler extends CRUDHandler
                 ->is('parent_id', null)
                 ;
         }
+        $collection->orderBy('ordering', 'ASC');
         $data['items'] = $collection->toArray();
         return $this->toJson($data);
     }

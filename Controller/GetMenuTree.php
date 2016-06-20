@@ -14,7 +14,7 @@ class GetMenuTree extends Controller
         $data  = array();
         $items = new MenuItemCollection;
         $items->where( array('parent' => $parent ) );
-        $items->order('sort','asc')->order('id','asc');
+        $items->order('ordering','asc')->order('id','asc');
         $items->fetch();
         foreach( $items->items() as $item ) {
             if( $item->type == "folder" ) {

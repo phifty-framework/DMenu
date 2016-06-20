@@ -27,7 +27,6 @@ class MenuItemSchemaProxy
       'class_names' => 1,
       'extra_attrs' => 1,
       'data' => 1,
-      'sort' => 1,
       'lang' => 1,
       'ordering' => 1,
     );
@@ -48,9 +47,8 @@ class MenuItemSchemaProxy
       9 => 'class_names',
       10 => 'extra_attrs',
       11 => 'data',
-      12 => 'sort',
-      13 => 'lang',
-      14 => 'ordering',
+      12 => 'lang',
+      13 => 'ordering',
     );
     public $primaryKey = 'id';
     public $columnNamesIncludeVirtual = array (
@@ -66,9 +64,8 @@ class MenuItemSchemaProxy
       9 => 'class_names',
       10 => 'extra_attrs',
       11 => 'data',
-      12 => 'sort',
-      13 => 'lang',
-      14 => 'ordering',
+      12 => 'lang',
+      13 => 'ordering',
     );
     public $label = 'MenuItem';
     public $readSourceId = 'default';
@@ -91,6 +88,7 @@ class MenuItemSchemaProxy
         ),
       'onUpdate' => NULL,
       'onDelete' => NULL,
+      'usingIndex' => NULL,
     )),
       'children' => \LazyRecord\Schema\Relationship\HasMany::__set_state(array( 
       'data' => array( 
@@ -106,6 +104,7 @@ class MenuItemSchemaProxy
         ),
       'onUpdate' => NULL,
       'onDelete' => 'CASCADE',
+      'usingIndex' => NULL,
     )),
     );
         $this->columns[ 'id' ] = new RuntimeColumn('id',array( 
@@ -373,22 +372,6 @@ class MenuItemSchemaProxy
       'onUpdate' => NULL,
       'length' => 200,
       'label' => '網址 (或參數)',
-    ));
-        $this->columns[ 'sort' ] = new RuntimeColumn('sort',array( 
-      'locales' => NULL,
-      'attributes' => array( 
-          'default' => 0,
-        ),
-      'name' => 'sort',
-      'primary' => NULL,
-      'unsigned' => NULL,
-      'type' => 'smallint',
-      'isa' => 'int',
-      'notNull' => NULL,
-      'enum' => NULL,
-      'set' => NULL,
-      'onUpdate' => NULL,
-      'default' => 0,
     ));
         $this->columns[ 'lang' ] = new RuntimeColumn('lang',array( 
       'locales' => NULL,
